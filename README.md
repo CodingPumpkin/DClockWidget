@@ -43,6 +43,12 @@ The program supports several flags. (Keep in ind that '-h' stands for height par
 
 Tip: It is generally a good idea to set x:y ratio to about 7:1. Otherwise the window looks hella funny =-]
 
-## Exit
+## Launcher
+To run this widget you can use launcher:
+| Command                                     | Result                          |
+|:-------------------------------------------:|:-------------------------------:|
+|```./DClockWidget.sh kill```                 |Kills existing instance of widget|
+|```./DClockWidget.sh run```                  |Runs new instance of widget      |
+|``` ./DClockWidget.sh <any_other_argument>```| Prints its usage                |
 
-Right now the only way to exit is to press ctrl+C
+Launcher works with ```launch-cfg.yml```, so you can modify some parameters described [above](#Usage).
