@@ -1,11 +1,12 @@
+exec = widget
 build:
-	gcc -Wall -lSDL2 -std=c99 ./src/*.c -o ./app
+	gcc -Wall -lSDL2 -std=c99 ./src/*.c -o ./$(exec)
 
 run:
-	./app
+	./$(exec)
 
 clean:
-	rm ./app
+	rm ./$(exec)
 
 delete:
 	delete.sh

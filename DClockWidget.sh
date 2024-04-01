@@ -4,7 +4,7 @@
 #Getting all arguments from yaml config file.
 
 getArgs () {
-    arg=$(cat launch-cfg.yml | grep $1)
+    arg=$(cat $3 | grep $1)
     arg=${arg:$2:$(expr ${#arg} - $2)}
     echo $arg
 }
@@ -17,19 +17,21 @@ if [ "$1" = "kill" ]; then
 else
 
     if [ "$1" = "run" ]; then
-        pos_x=$(getArgs 'pos_x:' 7)
-        pos_y=$(getArgs 'pos_y:' 7)
+        pos_x=$(getArgs 'pos_x:' 7 ./launch-cfg.yml)
+        pos_y=$(getArgs 'pos_y:' 7 ./launch-cfg.yml)
 
-        bg_red=$(getArgs 'bg_red:' 8)
-        bg_green=$(getArgs 'bg_green:' 10)
-        bg_blue=$(getArgs 'bg_blue:' 9)
+        bg_red=$(getArgs 'bg_red:' 8 ./launch-cfg.yml)
+        bg_green=$(getArgs 'bg_green:' 10 ./launch-cfg.yml)
+        bg_blue=$(getArgs 'bg_blue:' 9 ./launch-cfg.yml)
 
-        fg_red=$(getArgs 'fg_red:' 8)
-        fg_green=$(getArgs 'fg_green:' 10)
-        fg_blue=$(getArgs 'fg_blue:' 9)
+        fg_red=$(getArgs 'fg_red:' 8 ./launch-cfg.yml)
+        fg_green=$(getArgs 'fg_green:' 10 ./launch-cfg.yml)
+        fg_blue=$(getArgs 'fg_blue:' 9 ./launch-cfg.yml)
+
+        exec=$(getArgs "^exec " 7 ./Makefile)
 
         #Starting the DClockWidget in the background.
-        ./app -x $pos_x -y $pos_y -br $bg_red -bg $bg_green -bb $bg_blue -r $fg_red -g $fg_green -b $fg_blue &
+        ./$exec -x $pos_x -y $pos_y -br $bg_red -bg $bg_green -bb $bg_blue -r $fg_red -g $fg_green -b $fg_blue &
         echo $! > ./PID
 
         #Waiting until SDL app starts.
