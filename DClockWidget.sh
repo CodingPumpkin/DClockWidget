@@ -9,6 +9,15 @@ getArgs () {
     echo $arg
 }
 
+waitUntilWindowStarts() {
+    while true; do
+        if xprop -name "$1" 1> /dev/null 2>/dev/null; then
+            #echo "Window '$1' found!"
+            break
+        fi
+    done
+}
+
 if [ "$1" = "kill" ]; then
     PID=$(head -n 1 ./PID)
     rm ./PID
@@ -39,8 +48,7 @@ else
         ./$exec -x $pos_x -y $pos_y -br $bg_red -bg $bg_green -bb $bg_blue -r $fg_red -g $fg_green -b $fg_blue &
         echo $! > ./PID
 
-        #Waiting until SDL app starts.
-        sleep 1
+        waitUntilWindowStarts "Clock Widget"
 
         #Pinning DClockWidget to Desktop.
         wmctrl -r 'Clock Widget' -b toggle,below
