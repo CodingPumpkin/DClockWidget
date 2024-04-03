@@ -30,6 +30,11 @@ else
 
         exec=$(getArgs "^exec " 7 ./Makefile)
 
+        #Prevent multiple instances from starting
+        if [ -f ./PID ]; then
+            $0 kill
+        fi
+
         #Starting the DClockWidget in the background.
         ./$exec -x $pos_x -y $pos_y -br $bg_red -bg $bg_green -bb $bg_blue -r $fg_red -g $fg_green -b $fg_blue &
         echo $! > ./PID
