@@ -18,10 +18,18 @@ waitUntilWindowStarts() {
     done
 }
 
+killWidgetInstance() {
+    if ps -o command cp $1 | grep $2 >/dev/null; then
+        kill -s 9 $1 && echo "Process $1 successfully killed! ;)"
+    fi
+}
+
+exec=$(getArgs "^exec " 7 ./Makefile)
+
 if [ "$1" = "kill" ]; then
     PID=$(head -n 1 ./PID)
     rm ./PID
-    kill -s 9 $PID && echo "Process $PID successfully killed! ;)"
+    killWidgetInstance $PID $exec
     exit 0
 else
 
@@ -36,8 +44,6 @@ else
         fg_red=$(getArgs 'fg_red:' 8 ./launch-cfg.yml)
         fg_green=$(getArgs 'fg_green:' 10 ./launch-cfg.yml)
         fg_blue=$(getArgs 'fg_blue:' 9 ./launch-cfg.yml)
-
-        exec=$(getArgs "^exec " 7 ./Makefile)
 
         #Prevent multiple instances from starting
         if [ -f ./PID ]; then
