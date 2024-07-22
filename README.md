@@ -52,3 +52,6 @@ To run this widget you can use launcher:
 |``` ./DClockWidget.sh <any_other_argument>```| Prints its usage                |
 
 Launcher works with ```launch-cfg.yml```, so you can modify some parameters described [above](#Usage).
+
+>[!IMPORTANT]
+>You need to install ```wmctrl```.
