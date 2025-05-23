@@ -10,11 +10,28 @@ getArgs () {
 }
 
 waitUntilWindowStarts() {
+    local window_name="$1"
+    local previous_id=""
+
     while true; do
-        if xprop -name "$1" 1> /dev/null 2>/dev/null; then
-            #echo "Window '$1' found!"
-            break
+        current_id=$(wmctrl -l | grep "$window_name" | awk '{print $1}')
+
+        #Checking that the window ID has changed during the creation process
+        if [ -n "$current_id" ] && [ "$current_id" != "$previous_id" ]; then
+            #If this is not the first iteration, then the ID has changed
+            if [ -n "$previous_id" ]; then
+                waitUntilWindowStarts "$window_name"
+            fi
+        else
+            #If the ID has stopped changing, the window has been created (finally jeez)
+            if [ -n "$current_id" ] && [ "$current_id" == "$previous_id" ]; then
+                break
+            fi
         fi
+
+        previous_id="$current_id"
+
+        sleep 0.1
     done
 }
 
